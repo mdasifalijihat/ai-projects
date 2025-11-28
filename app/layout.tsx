@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import ChatSideBar from "@/components/ChatSideBar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="antialiased">
         <ThemeProvider
           attribute="class"
@@ -22,7 +23,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="max-h-screen flex">
+            <ChatSideBar />
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>

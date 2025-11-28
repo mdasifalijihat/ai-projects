@@ -1,10 +1,9 @@
-import ModeToggle from "@/components/ModeToggle";
+import HomePageContent from "@/components/HomePageContent";
 
 export default function Home() {
   return (
-    <div>
-      App Page
-      <ModeToggle />
+    <div className="flex-1">
+      <HomePageContent />
     </div>
   );
 }
