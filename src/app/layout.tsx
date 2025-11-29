@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import ChatSideBar from "@/components/ChatSideBar";
+import { ThemeProvider } from "@/src/components/theme-provider";
+import ChatSideBar from "@/src/components/ChatSideBar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
