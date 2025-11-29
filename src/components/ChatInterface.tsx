@@ -1,5 +1,5 @@
 "use client";
-import { ChevronDown, Sparkle } from "lucide-react";
+import { ChevronDown, Send, Sparkle, Sparkles } from "lucide-react";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import { Badge } from "./ui/badge";
@@ -12,13 +12,20 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
+import { Card, CardContent } from "./ui/card";
+import { Input } from "./ui/input";
 
 function ChatInterface() {
   const [inputMessage, setInputMessage] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const isAnonymousUser = true;
-  const currentAI = aiOptions[0]; // Example: selecting the first AI option
+  const currentAI = aiOptions[0];
+  const handleSendMessage = () => {
+    // Logic to send message
+    console.log("Message sent:", inputMessage);
+  };
+
   return (
     <div className="flex flex-col h-screen bg-background w-full">
       {/* header */}
@@ -91,6 +98,108 @@ function ChatInterface() {
           </div>
         </div>
       </header>
+
+      {/* Main Chat Area */}
+      <div className=" flex-1 py-6 px-4">
+        <div className="w-full space-y-6 h-full flex flex-col justify-between">
+          {/* welcome Message */}
+          <div>
+            <div className="mb-6 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-xl p-4">
+              <div className="flex items-start space-x-3">
+                <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Sparkles className="h-6 w-6 text-purple-500" />
+                </div>
+                <div className="prose prose-sm text-muted-foreground">
+                  <h3 className="font-semibold text-primary mb-1">
+                    {" "}
+                    welcome to AI Chat HUB! 🙋‍♀️
+                  </h3>
+                  <p className="text-primary/80 text-sm mb-2">
+                    {isAnonymousUser
+                      ? "You are currently using the app as an anonymous user. Sign up or log in to save your chat history and access more features!"
+                      : "Thank you for logging in! You can now save your chat history and access additional features."}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="inline-flex items-center px-2 py-1 bg-white/10 rounded-lg text-xs">
+                      💬 Type a message in the input box below to start chatting
+                      with AI Chat HUB.
+                    </span>
+                    <span className="inline-flex items-center px-2 py-1 bg-white/10 rounded-lg text-xs">
+                      🔄 Switch between different AI assistants using the AI
+                      selector in the header.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* card */}
+            <Card className="border-dashed">
+              <CardContent className="pt-6">
+                <div className="text-center space-y-4 ">
+                  <div
+                    className={`mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r ${currentAI.color}`}
+                  >
+                    <currentAI.icon className="h-8 w-8 text-primary" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold">
+                      {" "}
+                      Start your chat with {currentAI.name}{" "}
+                    </h2>
+                    <p className="text-muted-foreground mt-2">
+                      {currentAI.description}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 max-w-lg mx-auto gap-2 mt-4">
+                    {[
+                      "What can you help me with?",
+                      "Explain quantum computing",
+                      "write a poem about AI",
+                      "How to make a website?",
+                    ].map((prompt, index) => (
+                      <Button
+                        onClick={() => setInputMessage(prompt)}
+                        key={index}
+                        variant={"outline"}
+                        className="h-auto text-left p-3 justify-start "
+                      >
+                        <span>{prompt}</span>
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          {/* messages  */}
+          {/* Input Area */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex space-x-2">
+                <div className="flex-1 ">
+                  <Input
+                    ref={inputRef}
+                    value={inputMessage}
+                    placeholder={`Message ${currentAI?.name}`}
+                    onChange={(e) => setInputMessage(e.target.value)}
+                    className="min-h-12"
+                    //disabled
+                  />
+                </div>
+                <Button
+                  className="h-12 w-12 "
+                  size={"icon"}
+                  // disabled
+                  onClick={handleSendMessage}
+                >
+                  <Send className=" w-6 h-6" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }
